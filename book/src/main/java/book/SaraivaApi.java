@@ -10,7 +10,8 @@ public class SaraivaApi {
 	private Price price;
 	
 	public Book getBook() {
-		return new Book(sku, name, brand, Double.valueOf(price.getBestPrice().getValue()));
+		Double price = Double.valueOf(this.price.getBestPrice().getValue().replace(".", "").replace(",", "."));
+		return new Book(sku, name, brand, price);
 	}
 }
 

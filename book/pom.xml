@@ -44,9 +44,27 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<!-- Querydsl -->
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.querydsl</groupId> -->
+<!-- 			<artifactId>querydsl-sql</artifactId> -->
+<!-- 			<version>4.1.4</version> -->
+<!-- 		</dependency> -->
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.querydsl</groupId> -->
+<!-- 			<artifactId>querydsl-apt</artifactId> -->
+<!-- 			<scope>provided</scope> -->
+<!-- 		</dependency> -->
 
 	</dependencies>
 
@@ -56,6 +74,23 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+<!-- 			<plugin> -->
+<!-- 				<groupId>com.mysema.maven</groupId> -->
+<!-- 				<artifactId>apt-maven-plugin</artifactId> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<phase>generate-sources</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>process</goal> -->
+<!-- 						</goals> -->
+<!-- 						<configuration> -->
+<!-- 							<outputDirectory>${project.build.directory}/generated-sources</outputDirectory> -->
+<!-- 							<processor>com.querydsl.apt.JPAAnnotationProcessor</processor> -->
+<!-- 						</configuration> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
 		</plugins>
 	</build>
 </project>

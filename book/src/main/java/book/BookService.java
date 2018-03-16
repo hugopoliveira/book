@@ -1,10 +1,7 @@
 package book;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,49 +9,55 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.Lists;
-
 @RestController
 public class BookService {
-	
+
 	@Autowired
-	SaraivaClient client;
+	private SaraivaClient client;
+
+	@Autowired
+	private BookRepository repository;
 
 	@PostMapping("/book/")
 	public void inclusao() {
-		//TODO - recuperar valor SKU do request
-		System.out.println(client.cunsultarSaraiva("9731880"));
-		//TODO - Persistir na base de dados
-		//TODO - retorno HTTP 201
+		// TODO - recuperar valor SKU do request
+		Book book = client.cunsultarSaraiva("9731880").getBook();
+
+		if (book.getSku() != null)
+			repository.save(book);
+		// TODO - retorno HTTP 201
 	}
 
 	@DeleteMapping("/book/{sku}")
-	public ResponseEntity<HttpStatus> exclusao(@PathVariable String sku) {
-		//TODO - deletar da base de dados o sku
-		//TODO - retorno HTTP 204
-		System.out.println(sku);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public void exclusao(@PathVariable String sku) {
+		repository.deleteById(sku);
+		// TODO - retorno HTTP 204
 	}
 
 	@GetMapping("/book/{sku}")
 	public Book consulta(@PathVariable String sku) {
-		//TODO - buscar da base de dados o sku
-		//TODO - retorno HTTP 200
-		System.out.println(sku);
-		return new Book("sku", "name", "brand", 0.0);
+		// TODO - retorno HTTP 200
+		return repository.findById(sku).get();
 	}
 
 	@GetMapping("/book/")
-	public List<Book> listagem(@RequestParam("price") String price, @RequestParam("limit") String limit) {
-		//TODO - buscar da base de dados a lista
-		//TODO - retorno HTTP 200
-		System.out.println(price);
-		System.out.println(limit);
-		
-		Book book = new Book("sku", "name", "brand", 0.0);
-		
-		List<Book> results = Lists.newArrayList(book);
-		
+	public Iterable<Book> listagem(@RequestParam(name = "price", required = false) Double price,
+			@RequestParam(name = "limit", required = false) Integer limit) {
+		// TODO - retorno HTTP 200
+
+		Iterable<Book> results = null;
+
+		// A busca abaixo poderia ser melhor com a implementação de queryDSL
+		if (price != null && limit != null) {
+			results = repository.findByPriceLessThanEqual(price, PageRequest.of(0, limit)).getContent();
+		} else if (price != null) {
+			results = repository.findByPriceLessThanEqual(price);
+		} else if (limit != null) {
+			results = repository.findAll(PageRequest.of(0, limit)).getContent();
+		} else {
+			results = repository.findAll();
+		}
+
 		return results;
 	}
 }
