@@ -14,3 +14,8 @@ Para compilar o projeto utilizar o maven com o comando abaixo:
 Para executar o projeto utilizar o comando abaixo: 
 
 	java -jar target\book-0.0.1-SNAPSHOT.jar
+	
+	
+As informações de cobertura de testes são geradas pelo build em
+
+	\target\site\jacoco\index.html
