@@ -1,8 +1,12 @@
 package book;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SaraivaJson {
 	private String sku;
 	private String name;
@@ -16,11 +20,15 @@ public class SaraivaJson {
 }
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 class Price {
 	private BestPrice bestPrice;
 }
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 class BestPrice {
 	private String value;
 }

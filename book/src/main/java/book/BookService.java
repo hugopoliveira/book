@@ -22,14 +22,8 @@ public class BookService {
 
 	@PostMapping("/book/")
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void inclusao() {
-		// TODO - recuperar valor SKU do request
-		Book book = client.consultarSaraiva("3532420").getBook();
-
-		if (book.getSku() != null)
-			repository.save(book);
-
-		book = client.consultarSaraiva("2582131").getBook();
+	public void inclusao(@RequestParam("sku") String sku) {
+		Book book = client.consultarSaraiva(sku).getBook();
 
 		if (book.getSku() != null)
 			repository.save(book);
